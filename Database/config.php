@@ -26,10 +26,10 @@ mysqli_query($conn, $sql_usertbl);
 // Create property table
 $sql_property_tbl = "CREATE TABLE IF NOT EXISTS property_tbl (
     id INT(6) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    prop_adress VARCHAR(30) NOT NULL,
-    prop_desc TEXT NOT NULL,
+    prop_name VARCHAR(30) NOT NULL,
+    prop_location TEXT NOT NULL,
     prop_status VARCHAR(15) NOT NULL,
-    prop_cost DECIMAL(5,2) NOT NULL DEFAULT 0,
+    prop_price DECIMAL(5,2) NOT NULL DEFAULT 0,
     prop_image VARCHAR(120) NOT NULL
 )";
 mysqli_query($conn, $sql_property_tbl);
