@@ -30,7 +30,7 @@ $sql_property_tbl = "CREATE TABLE IF NOT EXISTS property_tbl (
     prop_location TEXT NOT NULL,
     prop_status VARCHAR(15) NOT NULL,
     prop_price DECIMAL(5,2) NOT NULL DEFAULT 0,
-    prop_image VARCHAR(120) NOT NULL
+    prop_image BLOB NOT NULL
 )";
 mysqli_query($conn, $sql_property_tbl);
 
