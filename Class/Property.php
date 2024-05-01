@@ -28,5 +28,18 @@ class Property {
             return [];
         }
     }
+
+    public function getPropertyById($id)
+        {
+            $query = "SELECT * FROM property_tbl WHERE id = ?";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bind_param('s', $id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $property = $result->fetch_assoc();
+
+            return $property; // Return property details
+        }
+
 }
 ?>
