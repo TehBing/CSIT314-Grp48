@@ -54,6 +54,9 @@ $properties = $property->getProperties($filters);
                         <a class="nav-link" href="#">About</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="agent_page.php">Agents</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="#">Login</a>
                     </li>
                     <li class="nav-item">
