@@ -23,6 +23,21 @@ class Agent {
       return $agentData;
     }
 
+    public function get_agentId($agentId) {
+        $agentData = [];
+
+        $sql_get_agentId = ("SELECT * FROM user_tbl WHERE id = '$agentId' ");
+        $result =  mysqli_query($this->conn, $sql_get_agentId);
+        $row = mysqli_num_rows($result);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+                $agentData[] = $row;
+      }
+
+      return $agentData;
+    }
+
+
   }
 
 ?>
