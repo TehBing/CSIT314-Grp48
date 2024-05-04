@@ -62,6 +62,9 @@ if (isset($_SESSION['user_id'])) {
                             <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
+                         <a class="nav-link" href="agent_page.php">Agents</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="loanCal.php">Loan Calculator</a>
                         </li>
                         <?php
