@@ -159,8 +159,9 @@ if (isset($_SESSION['user_id'])) {
                         echo '<a href="property_details.php?id=' . $prop['id'] . '" class="text-decoration-none text-dark">';
                         echo '<div class="card">';
                         echo '<div class="image-container" style="height: 200px; overflow: hidden;">';
-                        $base64Image = base64_encode($prop['prop_image']);
-                        echo '<img src="data:image/jpeg;base64,' . $base64Image . '" class="card-img-top img-fluid" alt="Property Image">';
+                        //$base64Image = base64_encode($prop['prop_image']);
+                        //echo '<img src="data:image/jpeg;base64,' . $base64Image . '" class="card-img-top img-fluid" alt="Property Image">';
+                        echo '<td>' ."<img src='" .$prop['prop_img_path']."' />" .'</td>';
                         echo '</div>';
                         echo '<div class="card-body">';
                         echo '<h5 class="card-title">' . $prop['prop_name'] . '</h5>';
