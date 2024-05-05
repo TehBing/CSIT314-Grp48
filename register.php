@@ -23,7 +23,7 @@
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="loanCal.php">Loan Calculator</a>
+                        <a class="nav-link" href="mortgageCalc/index.php">Mortgage Calculator</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="login.php">Login</a>

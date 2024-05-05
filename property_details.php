@@ -47,6 +47,8 @@ if (isset($_GET['id'])) {
                                 <p class="card-text">Price: $<?php echo $propertyPrice; ?></p>
                                 <p class="card-text">Status: <?php echo $propertyStatus; ?></p>
                                 <a href="index.php" class="btn btn-secondary mt-3">Back to Home</a>
+								
+								<?php include "mortgageCalc/divLoad.php"; ?>
                             </div>
                         </div>
                     </div>
