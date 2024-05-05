@@ -1,13 +1,19 @@
 <?php
+// insert_property.php
+
 session_start();
 require_once 'Database/config.php'; // Include your database configuration file
 require_once 'Class/Property.php'; // Include your Property class file
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $propName = $_POST['prop_name'];
-    $propLocation = $_POST['prop_location'];
-    $propPrice = $_POST['prop_price'];
-    $propStatus = $_POST['prop_status'];
+    // Create a new Property object
+    $property = new Property();
+
+    // Set property details using setter methods
+    $property->setName($_POST['prop_name']);
+    $property->setLocation($_POST['prop_location']);
+    $property->setPrice($_POST['prop_price']);
+    $property->setStatus($_POST['prop_status']);
 
     // Check if file upload is successful
     if (isset($_FILES['prop_image']) && $_FILES['prop_image']['error'] === UPLOAD_ERR_OK) {
@@ -31,15 +37,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $fileDestination = $uploadDirectory . $fileName;
             move_uploaded_file($fileTmpName, $fileDestination);
 
-            // Instantiate Property class and connect to the database
-            $property = new Property();
+            // Set property image using setter method
+            $property->setImage($fileDestination);
+
+            // Connect to the database
             $property->connectDb($conn); // Assuming $conn is your database connection object
 
-            // Insert property with image
-            $result = $property->insertProperty($propName, $propLocation, $propPrice, $propStatus, $fileDestination);
+            // Insert property into the database
+            $result = $property->insertProperty(
+                $property->getName(),
+                $property->getLocation(),
+                $property->getPrice(),
+                $property->getStatus(),
+                $property->getImage()
+            );
 
             if ($result) {
-                echo 'Property inserted successfully.';
+                // Retrieve the newly inserted property from the database
+                $newProperty = $property->getPropertyById($property->getLastInsertedId());
+                
+                // Display the newly inserted property
+                echo "<div class='text-center'>";
+                echo "<div>";
+                echo "<h3> Property added!</h3>";
+                echo "<h3>" . $newProperty['prop_name'] . "</h3>";
+                echo "<p>Location: " . $newProperty['prop_location'] . "</p>";
+                echo "<p>Price: $" . $newProperty['prop_price'] . "</p>";
+                echo "<p>Status: " . $newProperty['prop_status'] . "</p>";
+                echo "<img src='" . $newProperty['prop_img_path'] . "' alt='Property Image' style='max-width: 150px; height: auto;'>";
+                echo "</div>";
+                echo "</div>";
             } else {
                 echo 'Error inserting property.';
             }
@@ -51,7 +78,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
 
 
 <!DOCTYPE html>

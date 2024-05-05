@@ -2,10 +2,138 @@
 class Property {
     private $conn;
 
+    private $name;
+    private $location;
+    private $price;
+    private $status;
+    private $image; // Add this property to store image path
+
+    // Getter and Setter for Property Name
+    public function setName($name) {
+        $this->name = $name;
+    }
+
+    public function getName() {
+        return $this->name;
+    }
+
+    // Getter and Setter for Property Location
+    public function setLocation($location) {
+        $this->location = $location;
+    }
+
+    public function getLocation() {
+        return $this->location;
+    }
+
+    // Getter and Setter for Property Price
+    public function setPrice($price) {
+        $this->price = $price;
+    }
+
+    public function getPrice() {
+        return $this->price;
+    }
+
+    // Getter and Setter for Property Status
+    public function setStatus($status) {
+        $this->status = $status;
+    }
+
+    public function getStatus() {
+        return $this->status;
+    }
+
+    // Getter and Setter for Property Image
+    public function setImage($image) {
+        $this->image = $image;
+    }
+
+    public function getImage() {
+        return $this->image;
+    }
+
     public function connectDb($conn){
         $this->conn = $conn;
     }
 
+    public function setId($id) {
+        $this->id = $id;
+    }
+
+     // Method to insert property into the database
+    public function insertProperty($name, $location, $price, $status, $image) {
+        // Assuming you have a database connection stored in a property called $conn
+        // You can adjust this part according to your actual database setup
+
+        $stmt = $this->conn->prepare("INSERT INTO property_tbl (prop_name, prop_location, prop_price, prop_status, prop_img_path) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssdss", $name, $location, $price, $status, $image);
+        
+        // Execute the statement
+        $result = $stmt->execute();
+        
+        // Close the statement
+        $stmt->close();
+        
+        return $result;
+    }
+
+    public function updateProperty() {
+        // Check if all necessary properties are set
+        if (!isset($this->id) || !isset($this->name) || !isset($this->location) || !isset($this->price) || !isset($this->status) || !isset($this->image)) {
+            return false;
+        }
+    
+        // Check if file was uploaded without errors
+        if (!isset($this->image['tmp_name']) || $this->image['error'] !== UPLOAD_ERR_OK) {
+            return false;
+        }
+    
+        // Define the directory where uploaded images will be stored
+        $uploadDirectory = "uploads/";
+    
+        // Generate a unique name for the uploaded image
+        $uniqueFilename = uniqid() . '_' . basename($this->image['name']);
+    
+        // Define the file path where the image will be stored
+        $imagePath = $uploadDirectory . $uniqueFilename;
+    
+        // Move the uploaded file to the specified directory
+        if (!move_uploaded_file($this->image['tmp_name'], $imagePath)) {
+            return false; // Failed to move the uploaded file
+        }
+    
+        // Prepare and execute the update query
+        $stmt = $this->conn->prepare("UPDATE property_tbl SET prop_name = ?, prop_location = ?, prop_price = ?, prop_status = ?, prop_img_path = ? WHERE id = ?");
+        $stmt->bind_param("ssdssi", $this->name, $this->location, $this->price, $this->status, $imagePath, $this->id);
+        $result = $stmt->execute();
+    
+        // Close the statement
+        $stmt->close();
+    
+        return $result;
+    }
+    
+
+    public function deletePropertyById($id) {
+        // Prepare and execute the delete query
+        $stmt = $this->conn->prepare("DELETE FROM property_tbl WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $result = $stmt->execute();
+        
+        // Close the statement
+        $stmt->close();
+        
+        return $result;
+    }
+
+    public function getLastInsertedId() {
+        // Assuming $conn is your database connection object
+        // Implement the appropriate method based on your database library
+        return $this->conn->insert_id; // For MySQLi
+        // return $this->conn->lastInsertId(); // For PDO
+    }
+    
     public function getProperties($filters = [], $searchKeyword = '') {
         $sql = "SELECT * FROM property_tbl";
         $conditions = [];
@@ -58,62 +186,18 @@ class Property {
     
 
     public function getPropertyById($id) {
-        $query = "SELECT * FROM property_tbl WHERE id = ?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('s', $id);
+        // Assuming $conn is your database connection object
+        $stmt = $this->conn->prepare("SELECT prop_name, prop_location, prop_price, prop_status, prop_img_path FROM property_tbl WHERE id = ?");
+        $stmt->bind_param("i", $id);
         $stmt->execute();
         $result = $stmt->get_result();
-        $property = $result->fetch_assoc();
-
-        return $property; // Return property details
-    }
-
-    // Insert new property
-    public function insertProperty($propName, $propLocation, $propPrice, $propStatus, $propImage) {
-        if (!isset($this->conn)) {
-            die("Database connection is not set.");
+      
+        if ($result->num_rows > 0) {
+            return $result->fetch_assoc();
+        } else {
+            return null;
         }
-
-        // Prepare the SQL statement
-        //$query = "INSERT INTO property_tbl (prop_name, prop_location, prop_price, prop_status, prop_image) 
-                //VALUES (?, ?, ?, ?, ?)";
-        //$stmt = $this->conn->prepare($query);
-
-        $query = "INSERT INTO property_tbl (prop_name, prop_location, prop_price, prop_status, prop_img_path) 
-                VALUES (?, ?, ?, ?, ?)";
-        $stmt = $this->conn->prepare($query);
-
-        if (!$stmt) {
-            die("Error preparing SQL statement: " . $this->conn->error);
-        }
-
-        // Bind parameters and execute the statement
-        $stmt->bind_param('ssdss', $propName, $propLocation, $propPrice, $propStatus, $propImage);
-        $result = $stmt->execute();
-
-        if (!$result) {
-            die("Error executing SQL statement: " . $stmt->error);
-        }
-
-        return $result;
     }
-
-    // Update property
-    public function updateProperty($propId, $propName, $propLocation, $propPrice, $propStatus) {
-        $query = "UPDATE property_tbl SET prop_name=?, prop_location=?, prop_price=?, prop_status=? WHERE id=?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('ssdsi', $propName, $propLocation, $propPrice, $propStatus, $propId);
-
-        return $stmt->execute();
-    }
-
-    // Delete property
-    public function deleteProperty($propId) {
-        $query = "DELETE FROM property_tbl WHERE id=?";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bind_param('i', $propId);
-
-        return $stmt->execute();
-    }
+    
 }
 ?>
