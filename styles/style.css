@@ -65,6 +65,25 @@
     left: 0;
 }
 
+.custom-form .form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.custom-form .form-group {
+    margin: 10px;
+    flex: 0 0 calc(25% - 20px); /* Adjust this value as needed */
+    max-width: calc(25% - 20px); /* Adjust this value as needed */
+}
+
+@media (max-width: 768px) {
+    .custom-form .form-group {
+        flex: 0 0 calc(50% - 20px); /* Adjust this value as needed */
+        max-width: calc(50% - 20px); /* Adjust this value as needed */
+    }
+}
+
 
 
 

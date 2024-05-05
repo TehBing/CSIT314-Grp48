@@ -51,7 +51,7 @@ if (isset($_SESSION['user_id'])) {
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand mx-auto" href="#">
+                <a class="navbar-brand mx-auto" href="index.php">
                     <img src="img/Logo.png" width="100" height="100" alt="Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -63,7 +63,7 @@ if (isset($_SESSION['user_id'])) {
                             <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                         <a class="nav-link" href="agent_page.php">Agents</a>
+                            <a class="nav-link" href="agent_page.php">Agents</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="loanCal.php">Loan Calculator</a>
@@ -80,6 +80,14 @@ if (isset($_SESSION['user_id'])) {
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="delete_property.php">Delete Property</a>
+                            </li>
+                            <?php
+                        }
+
+                        if ($userRole === 'admin') {
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="users.php">Users</a>
                             </li>
                             <?php
                         }
@@ -115,13 +123,16 @@ if (isset($_SESSION['user_id'])) {
         <!-- Filter Form -->
         <div class="container mt-4">
             <div class="row justify-content-center">
-                <form action="index.php" method="GET" class="form-inline">
+                <form action="index.php" method="GET" class="form-inline custom-form">
                     <div class="form-row align-items-center">
                         <div class="form-group col-md-3">
                             <label for="price">Price:</label>
                             <select id="price" name="price" class="form-control">
                                 <option value="">Any Price</option>
                                 <option value="0-100000">$0 - $100,000</option>
+                                <option value="0-100000">$100,000 - $200,000</option>
+                                <option value="0-100000">$200,000 - $300,000</option>
+                                <option value="0-100000">$300,000 - $400,000</option>
                                 <!-- Add more price options if needed -->
                             </select>
                         </div>
@@ -138,7 +149,10 @@ if (isset($_SESSION['user_id'])) {
                             <label for="location">Location:</label>
                             <select id="location" name="location" class="form-control">
                                 <option value="">Any Location</option>
-                                <option value="Jurong">Jurong</option>
+                                <option value="Location_A">Location A</option>
+                                <option value="Location_B">Location B</option>
+                                <option value="Location_C">Location C</option>
+                                <option value="Location_D">Location D</option>
                                 <!-- Add more location options if needed -->
                             </select>
                         </div>
@@ -208,7 +222,7 @@ if (isset($_SESSION['user_id'])) {
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container">
-                <a class="navbar-brand mx-auto" href="#">
+                <a class="navbar-brand mx-auto" href="index.php">
                     <img src="img/Logo.png" width="100" height="100" alt="Logo">
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -244,13 +258,16 @@ if (isset($_SESSION['user_id'])) {
         <!-- Filter Form -->
         <div class="container mt-4">
             <div class="row justify-content-center">
-                <form action="index.php" method="GET" class="form-inline">
+                <form action="index.php" method="GET" class="form-inline custom-form">
                     <div class="form-row align-items-center">
                         <div class="form-group col-md-3">
                             <label for="price">Price:</label>
                             <select id="price" name="price" class="form-control">
                                 <option value="">Any Price</option>
                                 <option value="0-100000">$0 - $100,000</option>
+                                <option value="0-100000">$100,000 - $200,000</option>
+                                <option value="0-100000">$200,000 - $300,000</option>
+                                <option value="0-100000">$300,000 - $400,000</option>
                                 <!-- Add more price options if needed -->
                             </select>
                         </div>
@@ -267,7 +284,10 @@ if (isset($_SESSION['user_id'])) {
                             <label for="location">Location:</label>
                             <select id="location" name="location" class="form-control">
                                 <option value="">Any Location</option>
-                                <option value="Jurong">Jurong</option>
+                                <option value="Location_A">Location A</option>
+                                <option value="Location_B">Location B</option>
+                                <option value="Location_C">Location C</option>
+                                <option value="Location_D">Location D</option>
                                 <!-- Add more location options if needed -->
                             </select>
                         </div>
@@ -289,8 +309,9 @@ if (isset($_SESSION['user_id'])) {
                         echo '<a href="property_details.php?id=' . $prop['id'] . '" class="text-decoration-none text-dark">';
                         echo '<div class="card">';
                         echo '<div class="image-container" style="height: 200px; overflow: hidden;">';
-                        $base64Image = base64_encode($prop['prop_image']);
-                        echo '<img src="data:image/jpeg;base64,' . $base64Image . '" class="card-img-top img-fluid" alt="Property Image">';
+                        //$base64Image = base64_encode($prop['prop_image']);
+                        // echo '<img src="data:image/jpeg;base64,' . $base64Image . '" class="card-img-top img-fluid" alt="Property Image">';
+                        echo '<td>' ."<img src='" .$prop['prop_img_path']."' />" .'</td>';
                         echo '</div>';
                         echo '<div class="card-body">';
                         echo '<h5 class="card-title">' . $prop['prop_name'] . '</h5>';

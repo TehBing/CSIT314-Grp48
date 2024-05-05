@@ -22,7 +22,6 @@ if (isset($_GET['id'])) {
         $propertyStatus = $propertyDetails['prop_status'];
         $prop_img = $propertyDetails['prop_img_path'];
         // $base64Image = base64_encode($propertyDetails['prop_image']);
-
         // HTML structure to display property details
         ?>
         <!DOCTYPE html>
@@ -40,7 +39,6 @@ if (isset($_GET['id'])) {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="card">
-
                             <!-- <img src="data:image/jpeg;base64,<?php echo $base64Image; ?>" class="card-img-top" alt="Property Image"> -->
                             <img src="<?php echo $prop_img; ?>" class="card-img-top" alt="Property Image">
                             <div class="card-body">
@@ -48,11 +46,13 @@ if (isset($_GET['id'])) {
                                 <p class="card-text">Location: <?php echo $propertyLocation; ?></p>
                                 <p class="card-text">Price: $<?php echo $propertyPrice; ?></p>
                                 <p class="card-text">Status: <?php echo $propertyStatus; ?></p>
+                                <a href="index.php" class="btn btn-secondary mt-3">Back to Home</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             <!-- Bootstrap JS and dependencies -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
