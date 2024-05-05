@@ -1,16 +1,23 @@
 <?php
 require_once 'Database/config.php';
 include 'Class/Agent.php';
+session_start();
+if (isset($_SESSION['user_id'])) {
+    // User is logged in, display the dashboard or property listings
+    $userName = $_SESSION['user_name']; 
+    $userRole = $_SESSION['user_role']; 
+    $userId = $_SESSION['user_id']; 
+    $userEmail = $_SESSION['user_email'];
+}
 
 $agent = new Agent();
 $agent-> connectDb($conn);
 
- if (isset($_POST['submit_search'])) {
+if (isset($_POST['submit_search'])) {
         $name = $_POST['searchName'];
         $agentdata = $agent->get_agentbyName($name);
 }else{
     $agentdata = $agent-> get_agent();
-
 }
 
 ?>
@@ -30,7 +37,7 @@ $agent-> connectDb($conn);
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand mx-auto" href="#">
+            <a class="navbar-brand mx-auto" href="index.php">
                 <img src="img/Logo.png" width="100" height="100" alt="Logo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,21 +49,56 @@ $agent-> connectDb($conn);
                         <a class="nav-link" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link" href="agent_page.php">Agents</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                                <a class="nav-link" href="mortgageCalc/index.php">Mortgage Calculator</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
-                    </li>
+                    <?php
+                    // Additional options for agents
+                    if (!empty($_SESSION['user_id'])) {
+
+                        if ($userRole === 'agent') {
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="insert_property.php">Add Property</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="update_property.php">Update Property</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="delete_property.php">Delete Property</a>
+                            </li>
+                            <?php
+                        }
+
+                        if ($userRole === 'admin') {
+                            ?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="users.php">Users</a>
+                            </li>
+                            <?php
+                        }
+                        ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="logout.php">Logout</a>
+                        </li>
+                        <?php
+                    }else{
+                        ?>            
+                            <li class="nav-item">
+                                <a class="nav-link" href="login.php">Login</a> <!-- Display Login link -->
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="register.php">Register</a>
+                            </li>
+                        <?php
+                    }
+                    ?>                          
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
+                <form class="form-inline my-2 my-lg-0" action="index.php" method="GET">
                     <div class="input-group">
-                        <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="search">
                         <div class="input-group-append">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </div>
@@ -66,7 +108,6 @@ $agent-> connectDb($conn);
         </div>
     </nav>
 
-    <!-- Navbar -->
   <div class="container mt-5">
       <h2>Real Estate Agents</h2>
       <div class="row">

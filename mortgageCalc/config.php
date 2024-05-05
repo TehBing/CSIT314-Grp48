@@ -20,7 +20,7 @@ define('PMI', '1');   // Private Mortgage Insurance
 // Settings
 define('LAYOUT', 'modal'); // breakdown schedule modal, div or popup
 define('WEBSITE', ''); // Used in pdf emails to let your customers know where they came from 
-define('URL', 'http://localhost/csit314-grp48/mortgageCalc');  // Used for scripts and file reference locations (include http://), no trailing slashes
+define('URL', 'http://localhost/CSIT314/CSIT314-Grp48/mortgageCalc');  // Used for scripts and file reference locations (include http://), no trailing slashes
 define('EMAIL', ''); // Used for bcc to you so you can contact the customer 
 define('FROMEMAIL', '');  // The email address that shows in the from field
 define('ALLOWEMAIL', 'no');  // Allow email to send report to customer
