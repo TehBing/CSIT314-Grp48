@@ -75,7 +75,11 @@ class Property {
         }
 
         // Prepare the SQL statement
-        $query = "INSERT INTO property_tbl (prop_name, prop_location, prop_price, prop_status, prop_image) 
+        //$query = "INSERT INTO property_tbl (prop_name, prop_location, prop_price, prop_status, prop_image) 
+                //VALUES (?, ?, ?, ?, ?)";
+        //$stmt = $this->conn->prepare($query);
+
+        $query = "INSERT INTO property_tbl (prop_name, prop_location, prop_price, prop_status, prop_img_path) 
                 VALUES (?, ?, ?, ?, ?)";
         $stmt = $this->conn->prepare($query);
 

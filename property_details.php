@@ -20,7 +20,8 @@ if (isset($_GET['id'])) {
         $propertyLocation = $propertyDetails['prop_location'];
         $propertyPrice = $propertyDetails['prop_price'];
         $propertyStatus = $propertyDetails['prop_status'];
-        $base64Image = base64_encode($propertyDetails['prop_image']);
+        //$base64Image = base64_encode($propertyDetails['prop_image']);
+        $prop_img = $propertyDetails['prop_img_path'];
 
         // HTML structure to display property details
         ?>
@@ -39,17 +40,20 @@ if (isset($_GET['id'])) {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="card">
-                            <img src="data:image/jpeg;base64,<?php echo $base64Image; ?>" class="card-img-top" alt="Property Image">
+                            <!--<img src="data:image/jpeg;base64,<?php echo $base64Image; ?>" class="card-img-top" alt="Property Image"> -->
+                            <img src="<?php echo $prop_img; ?>" class="card-img-top" alt="Property Image">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $propertyName; ?></h5>
                                 <p class="card-text">Location: <?php echo $propertyLocation; ?></p>
                                 <p class="card-text">Price: $<?php echo $propertyPrice; ?></p>
                                 <p class="card-text">Status: <?php echo $propertyStatus; ?></p>
+                                <a href="index.php" class="btn btn-secondary mt-3">Back to Home</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             <!-- Bootstrap JS and dependencies -->
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
