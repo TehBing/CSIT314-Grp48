@@ -37,6 +37,20 @@ class Agent {
       return $agentData;
     }
 
+    public function get_agentbyName($userName) {
+        $agentDatabyName = [];
+
+        $sql_get_agentbyName = ("SELECT * FROM user_tbl WHERE user_role = 'agent' and user_name LIKE '%$userName%'");
+        $result =  mysqli_query($this->conn, $sql_get_agentbyName);
+        $row = mysqli_num_rows($result);
+
+        while ($row = mysqli_fetch_assoc($result)) {
+                $agentDatabyName[] = $row;
+      }
+
+      return $agentDatabyName;
+    }
+
 
   }
 

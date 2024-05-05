@@ -4,7 +4,14 @@ include 'Class/Agent.php';
 
 $agent = new Agent();
 $agent-> connectDb($conn);
-$agentdata = $agent-> get_agent();
+
+ if (isset($_POST['submit_search'])) {
+        $name = $_POST['searchName'];
+        $agentdata = $agent->get_agentbyName($name);
+}else{
+    $agentdata = $agent-> get_agent();
+
+}
 
 ?>
 
@@ -63,9 +70,16 @@ $agentdata = $agent-> get_agent();
   <div class="container mt-5">
       <h2>Real Estate Agents</h2>
       <div class="row">
-          <div class="col-md-6">
-              <input type="text" id="searchInput" class="form-control" placeholder="Search agents">
-          </div>
+            <div class="col-md-6">
+                <form method="POST" action="agent_page.php" class="form-inline mt-3">
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="search" placeholder="Search agent name" aria-label="Search" name="searchName">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="submit" name="submit_search">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>          
       </div>
       <div class="row mt-3" id="agentList">
         <div class="col-md-6">
