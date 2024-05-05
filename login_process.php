@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         echo 'Please enter both email and password.';
     } else {
         // Check user credentials in the database
-        $query = "SELECT id, user_name, user_pass, user_role FROM user_tbl WHERE user_email = ?";
+        $query = "SELECT id, user_name, user_pass, user_role, user_email FROM user_tbl WHERE user_email = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param('s', $email);
         $stmt->execute();
@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['user_name'];
                 $_SESSION['user_role'] = $user['user_role'];
+                $_SESSION['user_email'] = $user['user_email'];
 
                 // Redirect to dashboard or another page
                 header('Location: index.php');

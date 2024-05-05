@@ -32,7 +32,8 @@ if (isset($_SESSION['user_id'])) {
     // User is logged in, display the dashboard or property listings
     $userName = $_SESSION['user_name']; // Assuming 'user_name' is set in the session
     $userRole = $_SESSION['user_role']; // Assuming 'user_role' is set in the session
-    $userId = $_SESSION['user_id']; // Assuming 'user_role' is set in the session
+    $userId = $_SESSION['user_id']; 
+    $userEmail = $_SESSION['user_email'];
     ?>
 
     <!DOCTYPE html>
@@ -104,7 +105,8 @@ if (isset($_SESSION['user_id'])) {
             <div class="row justify-content-center">
                 <div class="col-md-6">
                     <div class="alert alert-info" role="alert">
-                        Welcome back <?php echo $userName; ?> with <?php echo $userRole; ?> with <?php echo $userId; ?> role.
+                        Welcome back <?php echo $userName; ?> as <?php echo $userRole; ?> role
+                        with <?php echo $userEmail; ?>.
                     </div>
                 </div>
             </div>
