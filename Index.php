@@ -66,7 +66,7 @@ if (isset($_SESSION['user_id'])) {
                             <a class="nav-link" href="agent_page.php">Agents</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="loanCal.php">Loan Calculator</a>
+                            <a class="nav-link" href="mortgageCalc/index.php">Mortgage Calculator</a>
                         </li>
                         <?php
                         // Additional options for agents
@@ -234,7 +234,7 @@ if (isset($_SESSION['user_id'])) {
                             <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="loanCal.php">Loan Calculator</a>
+                            <a class="nav-link" href="mortgageCalc/index.php">Mortgage Calculator</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="login.php">Login</a> <!-- Display Login link -->
