@@ -20,7 +20,8 @@ if (isset($_GET['id'])) {
         $propertyLocation = $propertyDetails['prop_location'];
         $propertyPrice = $propertyDetails['prop_price'];
         $propertyStatus = $propertyDetails['prop_status'];
-        $base64Image = base64_encode($propertyDetails['prop_image']);
+        $prop_img = $propertyDetails['prop_img_path'];
+        // $base64Image = base64_encode($propertyDetails['prop_image']);
 
         // HTML structure to display property details
         ?>
@@ -39,7 +40,9 @@ if (isset($_GET['id'])) {
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
                         <div class="card">
-                            <img src="data:image/jpeg;base64,<?php echo $base64Image; ?>" class="card-img-top" alt="Property Image">
+
+                            <!-- <img src="data:image/jpeg;base64,<?php echo $base64Image; ?>" class="card-img-top" alt="Property Image"> -->
+                            <img src="<?php echo $prop_img; ?>" class="card-img-top" alt="Property Image">
                             <div class="card-body">
                                 <h5 class="card-title"><?php echo $propertyName; ?></h5>
                                 <p class="card-text">Location: <?php echo $propertyLocation; ?></p>
