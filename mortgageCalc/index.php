@@ -51,7 +51,7 @@
                         <a class="nav-link" href="../agent_page.php">Agents</a>
                     </li>
                     <li class="nav-item">
-                                <a class="nav-link" href="mortgageCalc/index.php">Mortgage Calculator</a>
+                                <a class="nav-link" href="../mortgageCalc/index.php">Mortgage Calculator</a>
                     </li>
                     <?php
                     // Additional options for agents
