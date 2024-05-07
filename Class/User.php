@@ -5,7 +5,6 @@ class User {
     public function connectDb($conn){
         $this->conn = $conn;
     }
-
     public function get_users() {
         $users = [];
 
@@ -46,5 +45,4 @@ class User {
       $result = mysqli_query($this->conn, $sql_update_role);
     }
 }
-
 ?>

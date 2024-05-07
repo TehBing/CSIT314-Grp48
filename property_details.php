@@ -2,6 +2,17 @@
 require_once 'Database/config.php';
 require_once 'Class/Property.php';
 
+session_start();
+// check if the session got get properly
+// var_dump($_SESSION);
+if (isset($_SESSION['user_id'])) {
+    // User is logged in, display the dashboard or property listings
+    $userName = $_SESSION['user_name']; 
+    $userRole = $_SESSION['user_role']; 
+    $userId = $_SESSION['user_id']; 
+    $userEmail = $_SESSION['user_email'];
+}
+
 // Initialize the Property class and connect to the database
 $property = new Property();
 $property->connectDb($conn);
@@ -23,6 +34,7 @@ if (isset($_GET['id'])) {
         $prop_img = $propertyDetails['prop_img_path'];
         // $base64Image = base64_encode($propertyDetails['prop_image']);
         // HTML structure to display property details
+
         ?>
         <!DOCTYPE html>
         <html lang="en">
@@ -47,9 +59,16 @@ if (isset($_GET['id'])) {
                                 <p class="card-text">Price: $<?php echo $propertyPrice; ?></p>
                                 <p class="card-text">Status: <?php echo $propertyStatus; ?></p>
                                 <a href="index.php" class="btn btn-secondary mt-3">Back to Home</a>
-								
+								<?php 
+                                if (!empty($_SESSION['user_id'])) {
+                                    if ($userRole === 'buyer') {
+                                        echo '<button id="saveListingBtn" class="btn btn-primary mt-3">Save Listing</button>';
+                                    } 
+                                }
+                                ?>
 								<?php include "mortgageCalc/divLoad.php"; ?>
                             </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -60,6 +79,28 @@ if (isset($_GET['id'])) {
             <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
             <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <!-- Inside your HTML body, after the button -->
+            <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+            <script>
+            $(document).ready(function() {
+                $('#saveListingBtn').on('click', function() {
+                    $.ajax({
+                        type: 'POST',
+                        url: 'saved_listings.php', // PHP script to handle saving
+                        data: {
+                            prop_id: <?php echo $propertyId; ?>, // Pass the property ID
+                            user_id: <?php echo $userId; ?> // Pass the user ID
+                        },
+                        success: function(response) {
+                            alert(response); // Show success message or handle response
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(xhr.responseText); // Log any errors
+                        }
+                    });
+                });
+            });
+            </script>
         </body>
 
         </html>
