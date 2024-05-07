@@ -72,29 +72,7 @@ if (isset($_SESSION['user_id'])) {
                     <?php
                     // Additional options for agents
                     if (!empty($_SESSION['user_id'])) {
-
-                        if ($userRole === 'agent') {
-                            ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="insert_property.php">Add Property</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="update_property.php">Update Property</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="delete_property.php">Delete Property</a>
-                            </li>
-                            <?php
-                        }
-
-                        if ($userRole === 'admin') {
-                            ?>
-                            <li class="nav-item">
-                                <a class="nav-link" href="List_user.php">Users</a>
-                            </li>
-                            <?php
-                        }
-                        else if ($userRole === 'buyer') {
+                        if ($userRole === 'buyer') {
                             ?>
                             <li class="nav-item">
                                 <a class="nav-link" href="savedList.php">Favourite</a>
@@ -117,8 +95,6 @@ if (isset($_SESSION['user_id'])) {
                         <?php
                     }
                     ?>
-                    
-                    
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="index.php" method="GET">
                     <div class="input-group">
@@ -149,6 +125,17 @@ if (isset($_SESSION['user_id'])) {
         <?php
     }
     ?>
+
+    <?php
+    // Get filtered properties with search keyword
+    if (!empty($_SESSION['user_id'])) {
+        $userId = $_SESSION['user_id'];
+        $properties = $property->getSavedProperties($userId, $filters, $searchKeyword);
+    } else {
+        $properties = []; // If user is not logged in, show an empty array
+    }
+    ?>
+
 
     <div class="container mt-3">
         <div class="row justify-content-center">

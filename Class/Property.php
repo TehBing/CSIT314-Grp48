@@ -198,6 +198,44 @@ class Property {
             return null;
         }
     }
+
+    public function getSavedProperties($userId, $filters, $searchKeyword)
+    {
+        // Start building the query
+        $query = "SELECT property_tbl.* FROM property_tbl 
+                INNER JOIN favourite_tbl ON property_tbl.id = favourite_tbl.prop_id 
+                WHERE favourite_tbl.user_id = ?";
+
+        $params = [$userId]; // User ID as the first parameter
+
+        // Add filters if they are present
+        if (!empty($filters)) {
+            foreach ($filters as $key => $value) {
+                $query .= " AND property_tbl.$key = ?";
+                $params[] = $value; // Add filter value to the parameters array
+            }
+        }
+
+        // Add search keyword if it is present
+        if (!empty($searchKeyword)) {
+            $query .= " AND (property_tbl.prop_name LIKE ? 
+                        OR property_tbl.prop_location LIKE ?)";
+            $params[] = "%$searchKeyword%";
+            $params[] = "%$searchKeyword%"; // Search keyword for both name and location
+        }
+
+        $stmt = $this->conn->prepare($query);
+
+        // Bind parameters
+        $types = str_repeat('s', count($params)); // Assuming all parameters are strings
+        $stmt->bind_param($types, ...$params);
+
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+
     
 }
 ?>
