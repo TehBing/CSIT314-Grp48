@@ -93,7 +93,7 @@ if (isset($_POST['delete']) && isset($_POST['prop_id'])) {
                         if ($userRole === 'admin') {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="users.php">Users</a>
+                                <a class="nav-link" href="admin_page.php">Admin</a>
                             </li>
                             <?php
                         }

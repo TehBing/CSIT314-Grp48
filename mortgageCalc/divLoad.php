@@ -49,7 +49,7 @@
           title="The total purchase price of the home you wish to buy." />
         </td>
         <td class="entry">
-          <input type="text" class="priceHome inTxt" value="<?php echo DPRICE;?>" size="10" /> 
+          <input type="text" class="priceHome inTxt" value="<?php echo $propertyPrice;?>" size="10" />
         </td>
         <td class="symbol">
          <div class="expl">

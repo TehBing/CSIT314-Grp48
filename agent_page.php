@@ -75,7 +75,8 @@ if (isset($_POST['submit_search'])) {
                         if ($userRole === 'admin') {
                             ?>
                             <li class="nav-item">
-                                <a class="nav-link" href="List_user.php">Users</a>
+
+                                <a class="nav-link" href="admin_page.php">Admin</a>
                             </li>
                             <?php
                         }
