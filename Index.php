@@ -89,8 +89,11 @@ if (isset($_SESSION['user_id'])) {
 
                         if ($userRole === 'admin') {
                             ?>
-                            <li class="nav-item">
+                            <!-- <li class="nav-item">
                                 <a class="nav-link" href="users.php">Users</a>
+                            </li> -->
+                            <li class="nav-item">
+                                <a class="nav-link" href="admin_page.php">Admin</a>
                             </li>
                             <?php
                         }

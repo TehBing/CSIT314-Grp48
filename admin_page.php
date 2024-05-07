@@ -1,7 +1,12 @@
 <?php
-// Include the Property class file
-require_once 'Class/Property.php';
+require_once 'Database/config.php';
+include 'Class/User.php';
 session_start();
+
+// Create User object and connect to db
+$user = new User();
+$user-> connectDb($conn);
+
 if (isset($_SESSION['user_id'])) {
     // User is logged in, display the dashboard or property listings
     $userName = $_SESSION['user_name']; 
@@ -10,47 +15,25 @@ if (isset($_SESSION['user_id'])) {
     $userEmail = $_SESSION['user_email'];
 }
 
-// Database connection
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "CSIT314";
-
-$connection = mysqli_connect($servername, $username, $password, $dbname);
-
-if (!$connection) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Create a new Property object
-$property = new Property();
-
-// Set database connection for Property object
-$property->connectDb($connection); // Add this line to set the database connection
-
-// Check if property ID is set in the request
-if (isset($_POST['delete']) && isset($_POST['prop_id'])) {
-    // Set the property ID using setter method
-    $property->setId($_POST['prop_id']);
-
-    // Call the deletePropertyById method
-    $deleted = $property->deletePropertyById($_POST['prop_id']);
-
-    if ($deleted) {
-        echo '<script>alert("Property deleted successfully!")</script>';
-    } else {
-        echo '<script>alert("Error deleting property!")</script>';
-    }
+if (isset($_POST['submit_search'])) {
+        $userId = $_POST['searchUser'];
+        $userList = $user-> get_userById($userId);
+}else{
+    $userList = $user-> get_users();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delete Property</title>
+    <title>Admin Page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css"> <!-- Include custom.css -->
 </head>
+
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -125,17 +108,60 @@ if (isset($_POST['delete']) && isset($_POST['prop_id'])) {
             </div>
         </div>
     </nav>
-    <!-- Navbar -->
-    <div class="container mt-5">
-        <h2>Delete Property</h2>
-        <form action="delete_property.php" method="POST">
-            <div class="form-group">
-                <label for="prop_id">Enter Property ID to Delete:</label>
-                <input type="text" id="prop_id" name="prop_id" class="form-control" required>
-            </div>
-            <button type="submit" name="delete" class="btn btn-danger">Delete Property</button>
-        </form>
-        <a href="index.php" class="btn btn-secondary mt-3">Back to Home</a>
-    </div>
+
+  <div class="container mt-5">
+      <h2>User Accounts</h2>
+      <div class="row">
+            <div class="col-md-6">
+                <form method="POST" action="admin_page.php" class="form-inline mt-3">
+                    <div class="input-group mb-3">
+                        <input class="form-control" type="search" placeholder="Search User ID" aria-label="Search" name="searchUser">
+                        <div class="input-group-append">
+                            <button class="btn btn-outline-success" type="submit" name="submit_search">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>          
+      </div>
+      <div class="row mt-3" id="userList">
+        <div class="col-md-6">
+          <table border="1">
+            <div class="col-md-6"> <!-- New column for the table -->
+              <div class="table-responsive"> <!-- Make the table responsive -->
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                    <th>User ID</th>  
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>role</th>
+                    <th>User Profile</th>
+                    </tr>
+                </thead>
+                <?php 
+                if (count($userList) > 0) {
+                    foreach ($userList as $user) {
+                        echo "<tr>";
+                        echo "<td>" . $user["id"] . "</td>";
+                        echo "<td>" . $user["user_name"] . "</td>";
+                        echo "<td>" . $user["user_email"] . "</td>";
+                        echo "<td>" . $user["user_role"] . "</td>";
+                        echo "<td><a href='user_profile.php?id=" . $user["id"] . "' class='btn btn-info btn-sm'>View</a></td>"; ; 
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='7'>No results found</td></tr>";
+                }
+                ?>       
+              </form>
+            </table>
+          </div>
+      </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
