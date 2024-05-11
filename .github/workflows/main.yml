@@ -14,11 +14,10 @@ jobs:
         uses: actions/checkout@v2
         
       - name: Push to Prod
+        env:
+          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           git remote add Production https://github.com/TehBing/CSIT314-Grp48.git
           git remote -v  # Print remotes for debugging
           git push Production main
-        env:
-          # Make sure to set up the prod repo URL as a secret in your repository settings
-          # and then reference it here
-          PROD_REPO_URL: ${{ secrets.PROD_REPO_URL }}
+        
