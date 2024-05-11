@@ -17,7 +17,6 @@ jobs:
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
-          git remote add origin https://github.com/TehBing/CSIT314-Grp48.git
           git fetch origin main
           git push origin Production
         
