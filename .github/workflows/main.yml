@@ -17,7 +17,9 @@ jobs:
         env:
           PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
+          git config --global user.email "chewzongyuan@yahoo.com"
+          git config --global user.name "chew@1990"
           git remote add Production https://github.com/TehBing/CSIT314-Grp48.git
-          git remote -v  # Print remotes for debugging
-          git push Production main
+          git fetch origin main
+          git push origin Production 
         
