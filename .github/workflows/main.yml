@@ -1,0 +1,23 @@
+name: Main-production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
+      - name: Push to Prod
+        run: |
+          git remote add Production https://github.com/TehBing/CSIT314-Grp48.git
+          git push Production main
+        env:
+          # Make sure to set up the prod repo URL as a secret in your repository settings
+          # and then reference it here
+          PROD_REPO_URL: ${{ secrets.PROD_REPO_URL }}
