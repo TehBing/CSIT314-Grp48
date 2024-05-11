@@ -16,6 +16,7 @@ jobs:
       - name: Push to Prod
         run: |
           git remote add Production https://github.com/TehBing/CSIT314-Grp48.git
+          git remote -v  # Print remotes for debugging
           git push Production main
         env:
           # Make sure to set up the prod repo URL as a secret in your repository settings
