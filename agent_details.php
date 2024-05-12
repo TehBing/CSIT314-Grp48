@@ -182,8 +182,14 @@ if (isset($_GET['id'])) {
                                             <th>Reviews</th>
                                             <th>Rating</th>
                                             <th>Date</th>
-                                            <th>Delete</th>
-                                            <th>Edit</th>
+                                             <?php if ($userRole != 'agent') { 
+                                                ?>
+                                                    <th>Delete</th>
+                                                    <th>Edit</th>
+                                                <?php 
+                                            } 
+                                            ?>
+                                           
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -198,16 +204,20 @@ if (isset($_GET['id'])) {
                                                     <td><?php echo $agentreview['review']; ?></td>
                                                     <td><?php echo $reviewStar; ?></td>
                                                     <td><?php echo $agentreview['review_dateTime']; ?></td>
-                                                    <td>
-                                                        <form method="POST" action='agent_details.php?id=<?php echo $agentId ?>'>
-                                                            <input type="hidden" name="review_id" value="<?php echo $agentreview['id']; ?>">
-                                                            <button type="submit" class="btn btn-danger" name="btn_del_review" onclick="return confirm('Are you sure you want to delete this review?')">Delete</button>                          
-                                                        </form>
-                                                    </td>
-                                                    <td>
-                                                        <button class="btn btn-primary edit-review-btn" data-review-id="<?php echo $agentreview['id']; ?>" data-review-content="<?php echo htmlspecialchars($agentreview['review']); ?>" data-rating="<?php echo $agentreview['rating']; ?>">Edit</button>
-                                                    </td>
-                                                </tr>
+                                                    
+                                                   <?php if ($userRole != 'agent') { 
+                                                    ?>
+                                                        <td>
+                                                            <form method="POST" action='agent_details.php?id=<?php echo $agentId ?>'>
+                                                                <input type="hidden" name="review_id" value="<?php echo $agentreview['id']; ?>">
+                                                                <button type="submit" class="btn btn-danger" name="btn_del_review" onclick="return confirm('Are you sure you want to delete this review?')">Delete</button>
+                                                            </form>
+                                                        </td>
+                                                        <td>
+                                                            <button class="btn btn-primary edit-review-btn" data-review-id="<?php echo $agentreview['id']; ?>" data-review-content="<?php echo htmlspecialchars($agentreview['review']); ?>" data-rating="<?php echo $agentreview['rating']; ?>">Edit</button>
+                                                        </td>
+                                                    <?php } 
+                                                    ?>
                                                 <?php
                                             }
                                         }
